@@ -13,5 +13,8 @@
         "psr-4": {
             "Tesla\\Chrome2Pdf\\": "tests/"
         }
+    },
+    "require": {
+        "jakubkulhan/chrome-devtools-protocol": "^1.0"
     }
 }

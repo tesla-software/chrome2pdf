@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Tesla\Chrome2Pdf;
 
 use RuntimeException;
@@ -26,14 +28,14 @@ class Chrome2Pdf
         $this->launcher = new Launcher();
     }
 
-    public function setTempFolder(string $path)
+    public function setTempFolder(string $path): Chrome2Pdf
     {
         $this->tmpFolderPath = $path;
 
         return $this;
     }
 
-    public function getTempFolder()
+    public function getTempFolder(): string
     {
         if ($this->tmpFolderPath === null) {
             return sys_get_temp_dir();
@@ -42,12 +44,12 @@ class Chrome2Pdf
         return $this->tmpFolderPath;
     }
 
-    public function getBrowserLauncher()
+    public function getBrowserLauncher(): Launcher
     {
         return $this->launcher;
     }
 
-    public function setBrowserLauncher($launcher)
+    public function setBrowserLauncher(Launcher $launcher): Chrome2Pdf
     {
         $this->launcher = $launcher;
 
@@ -159,6 +161,14 @@ class Chrome2Pdf
         }
 
         if ($this->header || $this->footer) {
+            if ($this->header === null) {
+                $this->header = '<p></p>';
+            }
+
+            if ($this->footer === null) {
+                $this->footer = '<p></p>';
+            }
+
             $pdfOptions->displayHeaderFooter = true;
             $pdfOptions->headerTemplate = $this->header;
             $pdfOptions->footerTemplate = $this->footer;

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Tesla\Chrome2Pdf;
 
 trait HasPdfAttributes
@@ -28,6 +30,8 @@ trait HasPdfAttributes
 
     /**
      * HTML template for the print header. Should be valid HTML markup.
+     * Script tags inside templates are not evaluated.
+     * Page styles are not visible inside templates.
      *
      * @var string|null
      */
@@ -35,6 +39,8 @@ trait HasPdfAttributes
 
     /**
      * HTML template for the print footer. Should be valid HTML markup.
+     * Script tags inside templates are not evaluated.
+     * Page styles are not visible inside templates.
      *
      * @var string|null
      */
@@ -82,7 +88,7 @@ trait HasPdfAttributes
         'A6' => [4.13, 5.83],
     ];
 
-    public function setPaperFormat(string $format)
+    public function setPaperFormat(string $format): Chrome2Pdf
     {
         if (!array_key_exists($format, $this->paperFormats)) {
             throw new InvalidArgumentException('Paper format "' . $format . '" does not exist');
@@ -94,22 +100,29 @@ trait HasPdfAttributes
         return $this;
     }
 
-    public function portrait()
+    public function portrait(): Chrome2Pdf
     {
         $this->orientation = 'portrait';
 
         return $this;
     }
 
-    public function landscape()
+    public function landscape(): Chrome2Pdf
     {
         $this->orientation = 'landscape';
 
         return $this;
     }
 
-    public function margins(float $top, float $right, float $bottom, float $left)
+    public function margins(float $top, float $right, float $bottom, float $left, string $unit = 'inch'): Chrome2Pdf
     {
+        if ($unit === 'mm') {
+            $top = $top * 0.03937;
+            $right = $right * 0.03937;
+            $bottom = $bottom * 0.03937;
+            $left = $left * 0.03937;
+        }
+
         $this->margins['top'] = $top;
         $this->margins['right'] = $right;
         $this->margins['bottom'] = $bottom;
@@ -118,21 +131,21 @@ trait HasPdfAttributes
         return $this;
     }
 
-    public function setContent(string $content)
+    public function setContent(string $content): Chrome2Pdf
     {
         $this->content = $content;
 
         return $this;
     }
 
-    public function setHeader(string $header)
+    public function setHeader(?string $header): Chrome2Pdf
     {
         $this->header = $header;
 
         return $this;
     }
 
-    public function setFooter(string $footer)
+    public function setFooter(?string $footer): Chrome2Pdf
     {
         $this->footer = $footer;
 
