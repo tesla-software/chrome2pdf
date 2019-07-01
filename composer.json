@@ -1,0 +1,17 @@
+{
+    "name": "tesla-software/chrome2pdf",
+    "type": "standard",
+    "description": "Convert HTML to Pdf using headless chrome.",
+    "homepage": "https://github.com/tesla-software/chrome2pdf",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tesla\\Chrome2Pdf\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tesla\\Chrome2Pdf\\": "tests/"
+        }
+    }
+}
