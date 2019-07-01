@@ -49,14 +49,14 @@ trait HasPdfAttributes
     /**
      * Paper width in inches
      *
-     * @var int|float
+     * @var float
      */
     private $paperWidth;
 
     /**
      * Paper height in inches
      *
-     * @var int|float
+     * @var float
      */
     private $paperHeight;
 
@@ -88,6 +88,14 @@ trait HasPdfAttributes
         'A6' => [4.13, 5.83],
     ];
 
+    /**
+     * Scale of the webpage rendering.
+     * Scale amount must be between 0.1 and 2.
+     *
+     * @var int|float
+     */
+    private $scale = 1;
+
     public function setPaperFormat(string $format): Chrome2Pdf
     {
         if (!array_key_exists($format, $this->paperFormats)) {
@@ -114,7 +122,7 @@ trait HasPdfAttributes
         return $this;
     }
 
-    public function margins(float $top, float $right, float $bottom, float $left, string $unit = 'inch'): Chrome2Pdf
+    public function setMargins(float $top, float $right, float $bottom, float $left, string $unit = 'inch'): Chrome2Pdf
     {
         if ($unit === 'mm') {
             $top = $top * 0.03937;
@@ -152,23 +160,30 @@ trait HasPdfAttributes
         return $this;
     }
 
-    public function setPreferCSSPageSize($preferCss)
+    public function setPreferCSSPageSize(bool $preferCss): Chrome2Pdf
     {
         $this->preferCSSPageSize = $preferCss;
 
         return $this;
     }
 
-    public function setPaperWidth($width)
+    public function setPaperWidth(float $width): Chrome2Pdf
     {
         $this->paperWidth = $width;
 
         return $this;
     }
 
-    public function setPaperHeight($height)
+    public function setPaperHeight(float $height): Chrome2Pdf
     {
         $this->paperHeight = $height;
+
+        return $this;
+    }
+
+    public function setScale($scale): Chrome2Pdf
+    {
+        $this->scale = $scale;
 
         return $this;
     }

@@ -151,6 +151,7 @@ class Chrome2Pdf
         $pdfOptions->marginLeft = $this->margins['left'];
         $pdfOptions->preferCSSPageSize = $this->preferCSSPageSize;
         $pdfOptions->printBackground = $this->printBackground;
+        $pdfOptions->scale = $this->scale;
 
         if ($this->paperWidth) {
             $pdfOptions->paperWidth = $this->paperWidth;
