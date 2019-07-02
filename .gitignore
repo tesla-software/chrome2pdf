@@ -3,3 +3,5 @@ test.pdf
 example.php
 composer.lock
 test.html
+phpunit.xml
+.phpunit.result.cache

@@ -15,14 +15,39 @@ class Chrome2Pdf
 {
     use HasPdfAttributes;
 
+    /**
+     * Context for operations
+     *
+     * @var ContextInterface
+     */
     private $ctx;
 
+    /**
+     * Chrome launcher
+     *
+     * @var Launcher
+     */
     private $launcher;
 
+    /**
+     * Path to temporary html files
+     *
+     * @var string|null
+     */
     private $tmpFolderPath = null;
 
+    /**
+     * Path to Chrome binary
+     *
+     * @var string
+     */
     private $chromeExecutablePath = '/opt/google/chrome/chrome';
 
+    /**
+     * Additional Chrome command line arguments
+     *
+     * @var array
+     */
     private $chromeArgs = [];
 
     public function __construct()
@@ -78,20 +103,29 @@ class Chrome2Pdf
         return $this;
     }
 
-    public function getChromeExecutablePath()
+    public function getChromeExecutablePath(): string
     {
         return $this->chromeExecutablePath;
     }
 
-    public function setChromeExecutablePath($chromeExecutablePath)
+    public function setChromeExecutablePath(string $chromeExecutablePath): Chrome2Pdf
     {
         $this->chromeExecutablePath = $chromeExecutablePath;
 
         return $this;
     }
 
-    public function pdf()
+    /**
+     * Generate PDF
+     *
+     * @return string|null
+     */
+    public function pdf(): ?string
     {
+        if (!$this->content) {
+            throw new InvalidArgumentException('Missing content, set content by calling "setContent($html)" method');
+        }
+
         $launcher = $this->getBrowserLauncher();
         $launcher->setExecutable($this->getChromeExecutablePath());
         $ctx = $this->getContext();
@@ -99,6 +133,8 @@ class Chrome2Pdf
 
         $filename = $this->writeTempFile();
         $pdfOptions = $this->getPDFOptions();
+
+        $pdfResult = null;
 
         try {
             $tab = $instance->open($ctx);
@@ -112,8 +148,7 @@ class Chrome2Pdf
 
                 $response = $devtools->page()->printToPDF($ctx, $pdfOptions);
 
-                return base64_decode($response->data);
-
+                $pdfResult = base64_decode($response->data);
             } finally {
                 $devtools->close();
             }
@@ -122,17 +157,18 @@ class Chrome2Pdf
             $instance->close();
         }
 
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
+        $this->deleteTempFile($filename);
+
+        return $pdfResult;
     }
 
+    /**
+     * Write content to temporary html file
+     *
+     * @return string
+     */
     protected function writeTempFile(): string
     {
-        if (!$this->content) {
-            throw new InvalidArgumentException('Missing content, set content by calling "setContent($html)" method');
-        }
-
         $filepath = rtrim($this->getTempFolder(), DIRECTORY_SEPARATOR);
 
         if (!is_dir($filepath)) {
@@ -150,7 +186,25 @@ class Chrome2Pdf
         return $filename;
     }
 
-    private function getPDFOptions()
+    /**
+     * Delete temporary file
+     *
+     * @param string $filename
+     * @return void
+     */
+    protected function deleteTempFile(string $filename): void
+    {
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
+    }
+
+    /**
+     * Populate PDF options
+     *
+     * @return array
+     */
+    private function getPDFOptions(): PrintToPDFRequest
     {
         $pdfOptions = PrintToPDFRequest::make();
 

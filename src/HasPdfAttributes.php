@@ -6,6 +6,13 @@ namespace Tesla\Chrome2Pdf;
 trait HasPdfAttributes
 {
     /**
+     * Pdf content
+     *
+     * @var string
+     */
+    private $content;
+
+    /**
      * Print background graphics
      *
      * @var bool
