@@ -1,58 +1,40 @@
-chrome template: https://cs.chromium.org/chromium/src/components/printing/resources/print_header_footer_template_page.html
-
-
 # tesla-software/chrome2pdf
 
 Convert HTML to pdf using Headless chrome
 
-### CHANGELOG
+```php
+use Tesla\Chrome2Pdf\Chrome2Pdf;
 
-If the package provides a root-level file with a list of changes since the last
-release or version, it MUST be named `CHANGELOG`.
+$c2p = new Chrome2Pdf();
+$c2p->setChromeExecutablePath('/opt/google/chrome/chrome');
 
-It MAY have a lowercase filename extension indicating the file format.
+$pdf = $c2p
+    ->portrait()
+    ->setPaperFormat('A4')
+    ->setMargins(10, 10, 10, 10, 'mm')
+    ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
+    ->setHeader('<div style="font-size: 11px">This is a header</div>')
+    ->setFooter('<div style="font-size: 11px">This is a footer <span class="pageNumber"></span>/<span class="totalPages"></span></div>')
+    ->pdf();
 
-This publication does not otherwise define the structure and contents of the
-file.
+file_put_contents('test.pdf', $pdf);
+```
 
-### CONTRIBUTING
+## Setup
 
-If the package provides a root-level file that describes how to contribute to
-the package, it MUST be named `CONTRIBUTING`.
+Install chrome
 
-It MAY have a lowercase filename extension indicating the file format.
+```bash
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+```
 
-This publication does not otherwise define the structure and contents of the
-file.
+Install package
 
-### LICENSE
+```bash
+composer require tesla-software/chrome2pdf
+```
 
-Whereas package consumers might be in violation of copyright law when copying
-unlicensed intellectual property, the package SHOULD include a root-level file
-indicating the licensing and copyright terms of the package contents.
+## Misc
 
-If the package provides a root-level file indicating the licensing and copyright
-terms of the package contents, it MUST be named `LICENSE`.
-
-It MAY have a lowercase filename extension indicating the file format.
-
-This publication does not otherwise define the structure and contents of the
-file.
-
-### README
-
-If the package provides a root-level file with information about the package
-itself, it MUST be named `README`.
-
-It MAY have a lowercase filename extension indicating the file format.
-
-This publication does not otherwise define the structure and contents of the
-file.
-
-### Other Files
-
-The package MAY contain other root-level files for purposes not described in
-this publication.
-
-This publication does not define the structure and contents of the other
-root-level files.
+chrome template: https://cs.chromium.org/chromium/src/components/printing/resources/print_header_footer_template_page.html

@@ -51,14 +51,14 @@ trait HasPdfAttributes
      *
      * @var float
      */
-    private $paperWidth;
+    private $paperWidth = 8.27;
 
     /**
      * Paper height in inches
      *
      * @var float
      */
-    private $paperHeight;
+    private $paperHeight = 11.7;
 
     /**
      * Page margins in inches
