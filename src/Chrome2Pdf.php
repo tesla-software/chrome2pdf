@@ -6,6 +6,7 @@ namespace Tesla\Chrome2Pdf;
 use RuntimeException;
 use InvalidArgumentException;
 use ChromeDevtoolsProtocol\Context;
+use ChromeDevtoolsProtocol\ContextInterface;
 use ChromeDevtoolsProtocol\Instance\Launcher;
 use ChromeDevtoolsProtocol\Model\Page\NavigateRequest;
 use ChromeDevtoolsProtocol\Model\Page\PrintToPDFRequest;
@@ -21,6 +22,8 @@ class Chrome2Pdf
     private $tmpFolderPath = null;
 
     private $chromeExecutablePath = '/opt/google/chrome/chrome';
+
+    private $chromeArgs = [];
 
     public function __construct()
     {
@@ -56,14 +59,21 @@ class Chrome2Pdf
         return $this;
     }
 
-    public function getContext()
+    public function getContext(): ContextInterface
     {
         return $this->ctx;
     }
 
-    public function setContext($ctx)
+    public function setContext(ContextInterface $ctx): Chrome2Pdf
     {
         $this->ctx = $ctx;
+
+        return $this;
+    }
+
+    public function appendChromeArgs(array $args): Chrome2Pdf
+    {
+        $this->chromeArgs = array_unique(array_merge($this->chromeArgs, $args));
 
         return $this;
     }
@@ -85,7 +95,7 @@ class Chrome2Pdf
         $launcher = $this->getBrowserLauncher();
         $launcher->setExecutable($this->getChromeExecutablePath());
         $ctx = $this->getContext();
-        $instance = $launcher->launch($ctx);
+        $instance = $launcher->launch($ctx, ...$this->chromeArgs);
 
         $filename = $this->writeTempFile();
         $pdfOptions = $this->getPDFOptions();

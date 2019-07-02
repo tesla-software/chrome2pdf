@@ -6,7 +6,8 @@ Convert HTML to pdf using Headless chrome
 use Tesla\Chrome2Pdf\Chrome2Pdf;
 
 $c2p = new Chrome2Pdf();
-$c2p->setChromeExecutablePath('/opt/google/chrome/chrome');
+$c2p->setChromeExecutablePath('/opt/google/chrome/chrome')
+    ->appendChromeArgs(['--disable-gpu']);
 
 $pdf = $c2p
     ->portrait()
