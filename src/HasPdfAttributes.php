@@ -194,4 +194,11 @@ trait HasPdfAttributes
 
         return $this;
     }
+
+    public function setPrintBackground(bool $printBg): Chrome2Pdf
+    {
+        $this->printBackground = $printBg;
+
+        return $this;
+    }
 }
