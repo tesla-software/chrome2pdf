@@ -1,0 +1,27 @@
+dist: trusty
+addons:
+  chrome: stable
+
+language: php
+
+php:
+  - 7.2
+  - 7.3
+
+sudo: false
+
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+
+script:
+- vendor/bin/phpunit

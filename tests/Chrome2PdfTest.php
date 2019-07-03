@@ -6,7 +6,7 @@ class Chrome2PdfTest extends TestCase
     /** @test */
     public function it_generates_pdf_with_content()
     {
-        $pdf = (new Chrome2Pdf())->setContent('<h1>Test</h1>')->pdf();
+        $pdf = (new Chrome2Pdf())->setChromeExecutablePath('google-chrome-stable')->setContent('<h1>Test</h1>')->pdf();
 
         $this->assertNotNull($pdf);
     }
@@ -16,13 +16,14 @@ class Chrome2PdfTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        (new Chrome2Pdf())->pdf();
+        (new Chrome2Pdf())->setChromeExecutablePath('google-chrome-stable')->pdf();
     }
 
     /** @test */
     public function it_can_change_temp_directory()
     {
         $pdf = (new Chrome2Pdf())
+            ->setChromeExecutablePath('google-chrome-stable')
             ->setTempFolder(__DIR__ . '/temp/')
             ->setContent('<h1>Test</h1>')
             ->pdf();
