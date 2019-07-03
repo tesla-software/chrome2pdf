@@ -1,5 +1,7 @@
 # Chrome2Pdf
 
+[![Build Status](https://travis-ci.org/tesla-software/chrome2pdf.svg?branch=master)](https://travis-ci.org/tesla-software/chrome2pdf)
+
 Convert HTML to pdf using headless chrome.
 
 ```php
