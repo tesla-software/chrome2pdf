@@ -4,6 +4,15 @@
     "description": "Convert HTML to Pdf using headless chrome.",
     "homepage": "https://github.com/tesla-software/chrome2pdf",
     "license": "MIT",
+    "keywords": ["chrome", "convert", "html", "pdf", "headless"],
+    "authors": [
+        {
+            "name": "Karlo Mikuš",
+            "email": "contact@karlomikus.com",
+            "homepage": "https://karlomikus.com",
+            "role": "Author"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Tesla\\Chrome2Pdf\\": "src/"
@@ -19,5 +28,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^8"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
