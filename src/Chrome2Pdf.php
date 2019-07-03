@@ -152,7 +152,6 @@ class Chrome2Pdf
             } finally {
                 $devtools->close();
             }
-
         } finally {
             $instance->close();
         }

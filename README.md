@@ -37,7 +37,7 @@ class ExampleController extends Controller
             ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
             ->pdf();
 
-        return response()->file($pdf);
+        return response()->make($pdf, 200, ['Content-Type' => 'application/pdf']);
     }
 }
 ```
