@@ -10,6 +10,7 @@ use ChromeDevtoolsProtocol\ContextInterface;
 use ChromeDevtoolsProtocol\Instance\Launcher;
 use ChromeDevtoolsProtocol\Model\Page\NavigateRequest;
 use ChromeDevtoolsProtocol\Model\Page\PrintToPDFRequest;
+use ChromeDevtoolsProtocol\Model\Page\SetLifecycleEventsEnabledRequest;
 
 class Chrome2Pdf
 {
@@ -52,7 +53,7 @@ class Chrome2Pdf
 
     public function __construct()
     {
-        $this->ctx = Context::withTimeout(Context::background(), 30);
+        $this->ctx = Context::withTimeout(Context::background(), 10);
         $this->launcher = new Launcher();
     }
 
@@ -143,11 +144,15 @@ class Chrome2Pdf
             $devtools = $tab->devtools();
             try {
                 $devtools->page()->enable($ctx);
+                $devtools->page()->setLifecycleEventsEnabled($ctx, SetLifecycleEventsEnabledRequest::builder()->setEnabled(true)->build());
                 $devtools->page()->navigate($ctx, NavigateRequest::builder()->setUrl('file://' . $filename)->build());
                 $devtools->page()->awaitLoadEventFired($ctx);
 
-                $response = $devtools->page()->printToPDF($ctx, $pdfOptions);
+                do {
+                    $lifecycleEvent = $devtools->page()->awaitLifecycleEvent($ctx)->name;
+                } while($lifecycleEvent !== 'networkIdle');
 
+                $response = $devtools->page()->printToPDF($ctx, $pdfOptions);
                 $pdfResult = base64_decode($response->data);
             } finally {
                 $devtools->close();
