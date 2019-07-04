@@ -1,0 +1,26 @@
+<style>
+    /* Override: https://cs.chromium.org/chromium/src/components/printing/resources/print_header_footer_template_page.html */
+    #footer {
+        padding: 0 !important;
+    }
+    .footer-content {
+        font-size: 12px;
+        display: flex;
+        width: 100%;
+        padding: 0.2cm 0.7cm;
+    }
+    .footer-content-left, .footer-content-right {
+        width: 50%;
+    }
+    .footer-content-right {
+        text-align: right;
+    }
+</style>
+<div class="footer-content">
+    <div class="footer-content-left">
+        Date: <span class="date"></span>
+    </div>
+    <div class="footer-content-right">
+        Page: <span class="pageNumber"></span>/<span class="totalPages"></span>
+    </div>
+</div>

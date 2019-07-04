@@ -11,9 +11,9 @@ $pdf = $c2p
     ->appendChromeArgs(['--disable-gpu'])
     ->setContent(file_get_contents('example1.html'))
     ->setPaperFormat('A4')
-    ->setMargins(5, 5, 5, 5, 'mm')
-    ->setHeader('<style>#header { padding: 0 !important; }</style><span style="font-size: 12px">Header <span class="date"></span></span>')
-    ->setFooter('<style>#footer { padding: 0 !important; }</style><span style="font-size: 12px">Footer <span class="pageNumber"></span>/<span class="totalPages"></span></span>')
+    ->setMargins(5, 5, 10, 5, 'mm')
+    ->setHeader(file_get_contents('header.html'))
+    ->setFooter(file_get_contents('footer.html'))
     ->pdf();
 
 file_put_contents('example1.pdf', $pdf);
