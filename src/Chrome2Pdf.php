@@ -51,6 +51,13 @@ class Chrome2Pdf
      */
     private $chromeArgs = [];
 
+    /**
+     * Wait for a given lifecycle event before printing pdf
+     *
+     * @var string|null
+     */
+    private $waitForLifecycleEvent = null;
+
     public function __construct()
     {
         $this->ctx = Context::withTimeout(Context::background(), 10);
@@ -116,6 +123,13 @@ class Chrome2Pdf
         return $this;
     }
 
+    public function setWaitForLifecycleEvent(?string $event): Chrome2Pdf
+    {
+        $this->waitForLifecycleEvent = $event;
+
+        return $this;
+    }
+
     /**
      * Generate PDF
      *
@@ -150,9 +164,11 @@ class Chrome2Pdf
                 $devtools->page()->navigate($ctx, NavigateRequest::builder()->setUrl('file://' . $filename)->build());
                 $devtools->page()->awaitLoadEventFired($ctx);
 
-                do {
-                    $lifecycleEvent = $devtools->page()->awaitLifecycleEvent($ctx)->name;
-                } while($lifecycleEvent !== 'networkIdle');
+                if (null !== $this->waitForLifecycleEvent) {
+                    do {
+                        $lifecycleEvent = $devtools->page()->awaitLifecycleEvent($ctx)->name;
+                    } while($lifecycleEvent !== $this->waitForLifecycleEvent);
+                }
 
                 $response = $devtools->page()->printToPDF($ctx, $pdfOptions);
                 $pdfResult = base64_decode($response->data);

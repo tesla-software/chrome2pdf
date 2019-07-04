@@ -9,6 +9,7 @@ $c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
 $example1Start = microtime(true);
 $pdf = $c2p
     ->appendChromeArgs(['--disable-gpu'])
+    ->setWaitForLifecycleEvent('networkIdle')
     ->setContent(file_get_contents('example1.html'))
     ->setPaperFormat('A4')
     ->setMargins(5, 5, 10, 5, 'mm')
