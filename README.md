@@ -89,6 +89,17 @@ $chrome2pdf
     ->pdf();
 ```
 
+### Wait for a specific page lifecycle event
+
+Delays pdf generation until a specific page lifecycle event is triggered. Some helpful values include: `load`, `DOMContentLoaded`, `networkIdle`, `networkAlmostIdle`, etc.
+
+```php
+$chrome2pdf
+    ->setWaitForLifecycleEvent('networkIdle')
+    ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
+    ->pdf();
+```
+
 ### Additional Chrome arguments
 
 You can add custom arguments to chrome instance.
