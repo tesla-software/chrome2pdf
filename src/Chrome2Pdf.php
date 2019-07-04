@@ -40,9 +40,9 @@ class Chrome2Pdf
     /**
      * Path to Chrome binary
      *
-     * @var string
+     * @var string|null
      */
-    private $chromeExecutablePath = '/opt/google/chrome/chrome';
+    private $chromeExecutablePath = null;
 
     /**
      * Additional Chrome command line arguments
@@ -104,12 +104,12 @@ class Chrome2Pdf
         return $this;
     }
 
-    public function getChromeExecutablePath(): string
+    public function getChromeExecutablePath(): ?string
     {
         return $this->chromeExecutablePath;
     }
 
-    public function setChromeExecutablePath(string $chromeExecutablePath): Chrome2Pdf
+    public function setChromeExecutablePath(?string $chromeExecutablePath): Chrome2Pdf
     {
         $this->chromeExecutablePath = $chromeExecutablePath;
 
@@ -128,7 +128,9 @@ class Chrome2Pdf
         }
 
         $launcher = $this->getBrowserLauncher();
-        $launcher->setExecutable($this->getChromeExecutablePath());
+        if ($this->getChromeExecutablePath()) {
+            $launcher->setExecutable($this->getChromeExecutablePath());
+        }
         $ctx = $this->getContext();
         $instance = $launcher->launch($ctx, ...$this->chromeArgs);
 
