@@ -80,21 +80,11 @@ class Chrome2Pdf
         return $this->tmpFolderPath;
     }
 
-    public function getBrowserLauncher(): Launcher
-    {
-        return $this->launcher;
-    }
-
     public function setBrowserLauncher(Launcher $launcher): Chrome2Pdf
     {
         $this->launcher = $launcher;
 
         return $this;
-    }
-
-    public function getContext(): ContextInterface
-    {
-        return $this->ctx;
     }
 
     public function setContext(ContextInterface $ctx): Chrome2Pdf
@@ -109,11 +99,6 @@ class Chrome2Pdf
         $this->chromeArgs = array_unique(array_merge($this->chromeArgs, $args));
 
         return $this;
-    }
-
-    public function getChromeExecutablePath(): ?string
-    {
-        return $this->chromeExecutablePath;
     }
 
     public function setChromeExecutablePath(?string $chromeExecutablePath): Chrome2Pdf
@@ -141,11 +126,11 @@ class Chrome2Pdf
             throw new InvalidArgumentException('Missing content, set content by calling "setContent($html)" method');
         }
 
-        $launcher = $this->getBrowserLauncher();
-        if ($this->getChromeExecutablePath()) {
-            $launcher->setExecutable($this->getChromeExecutablePath());
+        $launcher = $this->launcher;
+        if ($this->chromeExecutablePath) {
+            $launcher->setExecutable($this->chromeExecutablePath);
         }
-        $ctx = $this->getContext();
+        $ctx = $this->ctx;
         $instance = $launcher->launch($ctx, ...$this->chromeArgs);
 
         $filename = $this->writeTempFile();
@@ -226,7 +211,7 @@ class Chrome2Pdf
      *
      * @return array
      */
-    private function getPDFOptions(): PrintToPDFRequest
+    protected function getPDFOptions(): PrintToPDFRequest
     {
         $pdfOptions = PrintToPDFRequest::make();
 
