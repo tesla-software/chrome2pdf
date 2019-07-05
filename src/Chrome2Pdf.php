@@ -11,6 +11,7 @@ use ChromeDevtoolsProtocol\Instance\Launcher;
 use ChromeDevtoolsProtocol\Model\Page\NavigateRequest;
 use ChromeDevtoolsProtocol\Model\Page\PrintToPDFRequest;
 use ChromeDevtoolsProtocol\Model\Page\SetLifecycleEventsEnabledRequest;
+use ChromeDevtoolsProtocol\Model\Emulation\SetScriptExecutionDisabledRequest;
 
 class Chrome2Pdf
 {
@@ -57,6 +58,13 @@ class Chrome2Pdf
      * @var string|null
      */
     private $waitForLifecycleEvent = null;
+
+    /**
+     * Whether script execution should be disabled in the page.
+     *
+     * @var bool
+     */
+    private $disableScriptExecution = false;
 
     public function __construct()
     {
@@ -115,6 +123,13 @@ class Chrome2Pdf
         return $this;
     }
 
+    public function setDisableScriptExecution(bool $disableScriptExecution): Chrome2Pdf
+    {
+        $this->disableScriptExecution = $disableScriptExecution;
+
+        return $this;
+    }
+
     /**
      * Generate PDF
      *
@@ -144,6 +159,10 @@ class Chrome2Pdf
 
             $devtools = $tab->devtools();
             try {
+                if ($this->disableScriptExecution) {
+                    $devtools->emulation()->setScriptExecutionDisabled($ctx, SetScriptExecutionDisabledRequest::builder()->setValue(true)->build());
+                }
+
                 $devtools->page()->enable($ctx);
                 $devtools->page()->setLifecycleEventsEnabled($ctx, SetLifecycleEventsEnabledRequest::builder()->setEnabled(true)->build());
                 $devtools->page()->navigate($ctx, NavigateRequest::builder()->setUrl('file://' . $filename)->build());

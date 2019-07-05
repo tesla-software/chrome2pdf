@@ -100,6 +100,17 @@ $chrome2pdf
     ->pdf();
 ```
 
+### Disable javascript
+
+Disables script execution.
+
+```php
+$chrome2pdf
+    ->setDisableScriptExecution(true)
+    ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
+    ->pdf();
+```
+
 ### Additional Chrome arguments
 
 You can add custom arguments to chrome instance.
