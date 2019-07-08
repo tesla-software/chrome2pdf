@@ -85,17 +85,17 @@ trait HasPdfAttributes
      * @var array
      */
     private $paperFormats = [
-        'Letter' => [8.5, 11],
-        'A0' => [33.1, 46.8],
-        'A1' => [23.4, 33.1],
-        'A2' => [16.54, 23.4],
-        'A3' => [11.7, 16.54],
-        'A4' => [8.27, 11.7],
-        'A5' => [5.83, 8.27],
-        'A6' => [4.13, 5.83],
-        'Legal' => [8.5, 14],
-        'Tabloid' => [11, 17],
-        'Ledger' => [17, 11],
+        'letter' => [8.5, 11],
+        'a0' => [33.1, 46.8],
+        'a1' => [23.4, 33.1],
+        'a2' => [16.54, 23.4],
+        'a3' => [11.7, 16.54],
+        'a4' => [8.27, 11.7],
+        'a5' => [5.83, 8.27],
+        'a6' => [4.13, 5.83],
+        'legal' => [8.5, 14],
+        'tabloid' => [11, 17],
+        'ledger' => [17, 11],
     ];
 
     /**
@@ -121,6 +121,8 @@ trait HasPdfAttributes
 
     public function setPaperFormat(string $format): Chrome2Pdf
     {
+        $format = mb_strtolower($format);
+
         if (!array_key_exists($format, $this->paperFormats)) {
             throw new InvalidArgumentException('Paper format "' . $format . '" does not exist');
         }
@@ -218,6 +220,8 @@ trait HasPdfAttributes
 
     protected function convertToInches(float $value, string $unit): float
     {
+        $unit = mb_strtolower($unit);
+
         if (!array_key_exists($unit, $this->unitToPixels)) {
             throw new InvalidArgumentException('Unknown measurement unit "' . $unit . '"');
         }
