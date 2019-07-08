@@ -117,7 +117,7 @@ You can add custom arguments to chrome instance.
 
 ```php
 $chrome2pdf
-    ->appendChromeArgs(['--disable-gpu'])
+    ->appendChromeArgs(['--disable-gpu', '--user-data-dir=/tmp/session-123'])
     ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
     ->pdf();
 ```
