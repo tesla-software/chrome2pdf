@@ -35,3 +35,17 @@ file_put_contents('invoice.pdf', $pdf);
 
 echo('Invoice example took ' . number_format((microtime(true) - $example2Start), 2) . 'µs');
 echo("\n");
+
+// Multipage example (https://github.com/sparksuite/simple-html-invoice-template)
+$c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
+$example3Start = microtime(true);
+$pdf = $c2p
+    ->setContent(file_get_contents('multipage.html'))
+    ->setPaperFormat('A4')
+    ->setMargins(11, 7, 11, 7, 'mm')
+    ->pdf();
+
+file_put_contents('multipage.pdf', $pdf);
+
+echo('Multipage example took ' . number_format((microtime(true) - $example3Start), 2) . 'µs');
+echo("\n");
