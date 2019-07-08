@@ -125,14 +125,15 @@ $chrome2pdf
 ### Available pdf options
 
 ```php
-// Available options: A0, A1, A2, A3, A4, A5, A6, Letter
+// Available options: A0, A1, A2, A3, A4, A5, A6, Letter, Legal, Tabloid, Ledger
 $chrome2pdf->setPaperFormat('A4');
 
-// Custom paper width and height (inches)
-$chrome2pdf->setPaperWidth(8)->setPaperHeight(12);
-
 // Custom margins ($top, $right, $bottom, $left, $measurementUnit)
+// Available units include: mm, cm, px, in
 $chrome2pdf->setMargins(2, 3, 2, 3, 'mm');
+
+// Custom paper width and height, second parameter accepts measurement unit
+$chrome2pdf->setPaperWidth(8)->setPaperHeight(12, 'cm');
 
 // Change paper orientation
 $chrome2pdf->portrait();

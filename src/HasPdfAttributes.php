@@ -93,6 +93,22 @@ trait HasPdfAttributes
         'A4' => [8.27, 11.7],
         'A5' => [5.83, 8.27],
         'A6' => [4.13, 5.83],
+        'Legal' => [8.5, 14],
+        'Tabloid' => [11, 17],
+        'Ledger' => [17, 11],
+    ];
+
+    /**
+     * Used for converting measurement units
+     * Inspired by https://github.com/GoogleChrome/puppeteer
+     *
+     * @var array
+     */
+    private $unitToPixels = [
+        'px' => 1,
+        'in' => 96,
+        'cm' => 37.8,
+        'mm' => 3.78
     ];
 
     /**
@@ -129,14 +145,12 @@ trait HasPdfAttributes
         return $this;
     }
 
-    public function setMargins(float $top, float $right, float $bottom, float $left, string $unit = 'inch'): Chrome2Pdf
+    public function setMargins(float $top, float $right, float $bottom, float $left, string $unit = 'in'): Chrome2Pdf
     {
-        if ($unit === 'mm') {
-            $top = $top * 0.03937;
-            $right = $right * 0.03937;
-            $bottom = $bottom * 0.03937;
-            $left = $left * 0.03937;
-        }
+        $top = $this->convertToInches($top, $unit);
+        $right = $this->convertToInches($right, $unit);
+        $bottom = $this->convertToInches($bottom, $unit);
+        $left = $this->convertToInches($left, $unit);
 
         $this->margins['top'] = $top;
         $this->margins['right'] = $right;
@@ -174,16 +188,16 @@ trait HasPdfAttributes
         return $this;
     }
 
-    public function setPaperWidth(float $width): Chrome2Pdf
+    public function setPaperWidth(float $width, string $unit = 'in'): Chrome2Pdf
     {
-        $this->paperWidth = $width;
+        $this->paperWidth = $this->convertToInches($width, $unit);
 
         return $this;
     }
 
-    public function setPaperHeight(float $height): Chrome2Pdf
+    public function setPaperHeight(float $height, string $unit = 'in'): Chrome2Pdf
     {
-        $this->paperHeight = $height;
+        $this->paperHeight = $this->convertToInches($height, $unit);
 
         return $this;
     }
@@ -200,5 +214,14 @@ trait HasPdfAttributes
         $this->printBackground = $printBg;
 
         return $this;
+    }
+
+    protected function convertToInches(float $value, string $unit): float
+    {
+        if (!array_key_exists($unit, $this->unitToPixels)) {
+            throw new InvalidArgumentException('Unknown measurement unit "' . $unit . '"');
+        }
+
+        return ($value * $this->unitToPixels[$unit]) / 96;
     }
 }
