@@ -66,9 +66,15 @@ class Chrome2Pdf
      */
     private $disableScriptExecution = false;
 
+    /**
+     * Web socket connection timeout
+     *
+     * @var int
+     */
+    private $timeout = 10;
+
     public function __construct()
     {
-        $this->ctx = Context::withTimeout(Context::background(), 10);
         $this->launcher = new Launcher();
     }
 
@@ -130,6 +136,13 @@ class Chrome2Pdf
         return $this;
     }
 
+    public function setTimeout(int $timeout): Chrome2Pdf
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
     /**
      * Generate PDF
      *
@@ -137,6 +150,8 @@ class Chrome2Pdf
      */
     public function pdf(): ?string
     {
+        $this->ctx = Context::withTimeout(Context::background(), $this->timeout);
+
         if (!$this->content) {
             throw new InvalidArgumentException('Missing content, set content by calling "setContent($html)" method');
         }
