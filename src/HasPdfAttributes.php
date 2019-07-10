@@ -119,6 +119,13 @@ trait HasPdfAttributes
      */
     private $scale = 1;
 
+    /**
+     * Display header and footer.
+     *
+     * @var bool
+     */
+    private $displayHeaderFooter = false;
+
     public function setPaperFormat(string $format): Chrome2Pdf
     {
         $format = mb_strtolower($format);
@@ -207,6 +214,13 @@ trait HasPdfAttributes
     public function setScale($scale): Chrome2Pdf
     {
         $this->scale = $scale;
+
+        return $this;
+    }
+
+    public function setDisplayHeaderFooter(bool $displayHeaderFooter): Chrome2Pdf
+    {
+        $this->displayHeaderFooter = $displayHeaderFooter;
 
         return $this;
     }

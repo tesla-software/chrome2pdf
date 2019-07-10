@@ -7,6 +7,7 @@
 Convert HTML to pdf using headless chrome.
 
 ```php
+<?php
 use Tesla\Chrome2Pdf\Chrome2Pdf;
 
 $c2p = new Chrome2Pdf();
@@ -122,6 +123,17 @@ $chrome2pdf
     ->pdf();
 ```
 
+### Set timeout
+
+Set web socket connection timeout in microseconds.
+
+```php
+$chrome2pdf
+    ->setTimeout(10)
+    ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
+    ->pdf();
+```
+
 ### Available pdf options
 
 ```php
@@ -145,6 +157,9 @@ $chrome2pdf->setScale(1);
 // Set header and footer HTML
 $chrome2pdf->setHeader('<p>Header text</p>');
 $chrome2pdf->setFooter('<p>Footer text</p>');
+
+// Disable/enable header and footer
+$chrome2pdf->setDisplayHeaderFooter(true);
 
 // Set pdf body content
 $chrome2pdf->setContent('<p>Demo content</p>');

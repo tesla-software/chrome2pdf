@@ -257,6 +257,7 @@ class Chrome2Pdf
         $pdfOptions->preferCSSPageSize = $this->preferCSSPageSize;
         $pdfOptions->printBackground = $this->printBackground;
         $pdfOptions->scale = $this->scale;
+        $pdfOptions->displayHeaderFooter = $this->displayHeaderFooter;
 
         if ($this->paperWidth) {
             $pdfOptions->paperWidth = $this->paperWidth;

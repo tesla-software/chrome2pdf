@@ -6,7 +6,7 @@ use Tesla\Chrome2Pdf\Chrome2Pdf;
 $c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
 
 // Default example
-$example1Start = microtime(true);
+$timer = microtime(true);
 $pdf = $c2p
     ->appendChromeArgs(['--disable-gpu'])
     ->setWaitForLifecycleEvent('networkIdle')
@@ -19,12 +19,12 @@ $pdf = $c2p
 
 file_put_contents('example1.pdf', $pdf);
 
-echo('Example 1 took ' . number_format((microtime(true) - $example1Start), 2) . 'µs');
+echo('Example 1 took ' . number_format((microtime(true) - $timer), 2) . 'µs');
 echo("\n");
 
 // Invoice example (https://github.com/sparksuite/simple-html-invoice-template)
 $c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
-$example2Start = microtime(true);
+$timer = microtime(true);
 $pdf = $c2p
     ->setContent(file_get_contents('invoice.html'))
     ->setPaperFormat('A4')
@@ -33,12 +33,12 @@ $pdf = $c2p
 
 file_put_contents('invoice.pdf', $pdf);
 
-echo('Invoice example took ' . number_format((microtime(true) - $example2Start), 2) . 'µs');
+echo('Invoice example took ' . number_format((microtime(true) - $timer), 2) . 'µs');
 echo("\n");
 
 // Multipage example (https://github.com/sparksuite/simple-html-invoice-template)
 $c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
-$example3Start = microtime(true);
+$timer = microtime(true);
 $pdf = $c2p
     ->setContent(file_get_contents('multipage.html'))
     ->setPaperFormat('A4')
@@ -47,5 +47,18 @@ $pdf = $c2p
 
 file_put_contents('multipage.pdf', $pdf);
 
-echo('Multipage example took ' . number_format((microtime(true) - $example3Start), 2) . 'µs');
+echo('Multipage example took ' . number_format((microtime(true) - $timer), 2) . 'µs');
+echo("\n");
+
+// Paged media
+$c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
+$timer = microtime(true);
+$pdf = $c2p
+    ->setContent(file_get_contents('pagedmedia.html'))
+    ->setPreferCSSPageSize(true)
+    ->pdf();
+
+file_put_contents('pagedmedia.pdf', $pdf);
+
+echo('Paged media example took ' . number_format((microtime(true) - $timer), 2) . 'µs');
 echo("\n");
