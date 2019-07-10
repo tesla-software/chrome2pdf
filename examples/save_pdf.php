@@ -3,9 +3,8 @@ require __DIR__.'/../vendor/autoload.php';
 
 use Tesla\Chrome2Pdf\Chrome2Pdf;
 
-$c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
-
 // Default example
+$c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
 $timer = microtime(true);
 $pdf = $c2p
     ->appendChromeArgs(['--disable-gpu'])

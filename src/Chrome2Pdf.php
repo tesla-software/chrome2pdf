@@ -12,6 +12,7 @@ use ChromeDevtoolsProtocol\Model\Page\NavigateRequest;
 use ChromeDevtoolsProtocol\Model\Page\PrintToPDFRequest;
 use ChromeDevtoolsProtocol\Model\Page\SetLifecycleEventsEnabledRequest;
 use ChromeDevtoolsProtocol\Model\Emulation\SetScriptExecutionDisabledRequest;
+use ChromeDevtoolsProtocol\Model\Emulation\SetEmulatedMediaRequest;
 
 class Chrome2Pdf
 {
@@ -72,6 +73,13 @@ class Chrome2Pdf
      * @var int
      */
     private $timeout = 10;
+
+    /**
+     * Emulates the given media for CSS media queries
+     *
+     * @var string|null
+     */
+    private $emulateMedia = null;
 
     public function __construct()
     {
@@ -143,6 +151,13 @@ class Chrome2Pdf
         return $this;
     }
 
+    public function setEmulateMedia(?string $emulateMedia): Chrome2Pdf
+    {
+        $this->emulateMedia = $emulateMedia;
+
+        return $this;
+    }
+
     /**
      * Generate PDF
      *
@@ -176,6 +191,10 @@ class Chrome2Pdf
             try {
                 if ($this->disableScriptExecution) {
                     $devtools->emulation()->setScriptExecutionDisabled($ctx, SetScriptExecutionDisabledRequest::builder()->setValue(true)->build());
+                }
+
+                if ($this->emulateMedia !== null) {
+                    $devtools->emulation()->setEmulatedMedia($ctx, SetEmulatedMediaRequest::builder()->setMedia($this->emulateMedia)->build());
                 }
 
                 $devtools->page()->enable($ctx);

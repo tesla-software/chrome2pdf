@@ -134,6 +134,17 @@ $chrome2pdf
     ->pdf();
 ```
 
+### Emulate media
+
+Emulates the given media for CSS media queries.
+
+```php
+$chrome2pdf
+    ->setEmulateMedia('screen')
+    ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
+    ->pdf();
+```
+
 ### Available pdf options
 
 ```php
