@@ -267,6 +267,10 @@ class Chrome2Pdf
             $pdfOptions->paperHeight = $this->paperHeight;
         }
 
+        if ($this->pageRanges) {
+            $pdfOptions->pageRanges = $this->pageRanges;
+        }
+
         if ($this->header || $this->footer) {
             if ($this->header === null) {
                 $this->header = '<p></p>';

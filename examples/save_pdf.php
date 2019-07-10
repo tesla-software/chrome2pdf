@@ -62,3 +62,18 @@ file_put_contents('pagedmedia.pdf', $pdf);
 
 echo('Paged media example took ' . number_format((microtime(true) - $timer), 2) . 'µs');
 echo("\n");
+
+// Specific page range
+$c2p = (new Chrome2Pdf())->setChromeExecutablePath('/opt/google/chrome/chrome');
+$timer = microtime(true);
+$pdf = $c2p
+    ->setContent(file_get_contents('multipage.html'))
+    ->setPaperFormat('A4')
+    ->setMargins(11, 7, 11, 7, 'mm')
+    ->setPageRanges('2-3')
+    ->pdf();
+
+file_put_contents('specific-page-range.pdf', $pdf);
+
+echo('Specific page range example took ' . number_format((microtime(true) - $timer), 2) . 'µs');
+echo("\n");

@@ -164,6 +164,9 @@ $chrome2pdf->setDisplayHeaderFooter(true);
 // Set pdf body content
 $chrome2pdf->setContent('<p>Demo content</p>');
 
+// Set custom page print range, e.g., '1-5, 8, 11-13'
+$chrome2pdf->setPageRanges('2-3');
+
 // Give any CSS @page size declared in the page priority over what is declared
 // in width and height or format options
 $chrome2pdf->setPreferCSSPageSize(true);

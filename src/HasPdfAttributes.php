@@ -126,6 +126,14 @@ trait HasPdfAttributes
      */
     private $displayHeaderFooter = false;
 
+    /**
+     * Paper ranges to print, e.g., '1-5, 8, 11-13'.
+     * By default prints all pages.
+     *
+     * @var string|null
+     */
+    private $pageRanges = null;
+
     public function setPaperFormat(string $format): Chrome2Pdf
     {
         $format = mb_strtolower($format);
@@ -228,6 +236,13 @@ trait HasPdfAttributes
     public function setPrintBackground(bool $printBg): Chrome2Pdf
     {
         $this->printBackground = $printBg;
+
+        return $this;
+    }
+
+    public function setPageRanges(?string $pageRanges): Chrome2Pdf
+    {
+        $this->pageRanges = $pageRanges;
 
         return $this;
     }
