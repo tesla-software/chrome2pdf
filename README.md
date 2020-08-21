@@ -6,6 +6,10 @@
 
 Convert HTML to pdf using headless chrome.
 
+Since this is based on current Chrome version and not on unmaintained technology like WebKit ([wkhtmltopdf](https://wkhtmltopdf.org/)), it fully supports all modern CSS/HTML features.
+
+Also this package does not depend on any external js library.
+
 ```php
 <?php
 use Tesla\Chrome2Pdf\Chrome2Pdf;
@@ -47,6 +51,10 @@ class ExampleController extends Controller
 }
 ```
 
+## Known issues
+
+Please check [this blogpost](https://nathanfriend.io/2019/04/15/pdf-gotchas-with-headless-chrome.html) for known gotchas when creating pdf using headless Chrome.
+
 ## Usage
 
 This package depends on headless chrome. Install it via your package manager of choice or manually:
@@ -68,6 +76,47 @@ Create Chrome2Pdf instance and give it some content:
 $pdfContent = (new \Tesla\Chrome2Pdf\Chrome2Pdf())
     ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
     ->pdf();
+```
+
+### Available pdf options
+
+```php
+// Available options: A0, A1, A2, A3, A4, A5, A6, Letter, Legal, Tabloid, Ledger
+$chrome2pdf->setPaperFormat('A4');
+
+// Custom margins ($top, $right, $bottom, $left, $measurementUnit)
+// Available units include: mm, cm, px, in
+$chrome2pdf->setMargins(2, 3, 2, 3, 'mm');
+
+// Custom paper width and height, second parameter accepts measurement unit
+$chrome2pdf->setPaperWidth(8)->setPaperHeight(12, 'cm');
+
+// Change paper orientation
+$chrome2pdf->portrait();
+$chrome2pdf->landscape();
+
+// Change webpage rendering scale
+$chrome2pdf->setScale(1);
+
+// Set header and footer HTML
+$chrome2pdf->setHeader('<p>Header text</p>');
+$chrome2pdf->setFooter('<p>Footer text</p>');
+
+// Disable/enable header and footer
+$chrome2pdf->setDisplayHeaderFooter(true);
+
+// Set pdf body content
+$chrome2pdf->setContent('<p>Demo content</p>');
+
+// Set custom page print range, e.g., '1-5, 8, 11-13'
+$chrome2pdf->setPageRanges('2-3');
+
+// Give any CSS @page size declared in the page priority over what is declared
+// in width and height or format options
+$chrome2pdf->setPreferCSSPageSize(true);
+
+// Print background graphics
+$chrome2pdf->setPrintBackground(true);
 ```
 
 ### Change Chrome executable path
@@ -143,47 +192,6 @@ $chrome2pdf
     ->setEmulateMedia('screen')
     ->setContent('<h1>Hello world</h1><p>This is a paragraph</p>')
     ->pdf();
-```
-
-### Available pdf options
-
-```php
-// Available options: A0, A1, A2, A3, A4, A5, A6, Letter, Legal, Tabloid, Ledger
-$chrome2pdf->setPaperFormat('A4');
-
-// Custom margins ($top, $right, $bottom, $left, $measurementUnit)
-// Available units include: mm, cm, px, in
-$chrome2pdf->setMargins(2, 3, 2, 3, 'mm');
-
-// Custom paper width and height, second parameter accepts measurement unit
-$chrome2pdf->setPaperWidth(8)->setPaperHeight(12, 'cm');
-
-// Change paper orientation
-$chrome2pdf->portrait();
-$chrome2pdf->landscape();
-
-// Change webpage rendering scale
-$chrome2pdf->setScale(1);
-
-// Set header and footer HTML
-$chrome2pdf->setHeader('<p>Header text</p>');
-$chrome2pdf->setFooter('<p>Footer text</p>');
-
-// Disable/enable header and footer
-$chrome2pdf->setDisplayHeaderFooter(true);
-
-// Set pdf body content
-$chrome2pdf->setContent('<p>Demo content</p>');
-
-// Set custom page print range, e.g., '1-5, 8, 11-13'
-$chrome2pdf->setPageRanges('2-3');
-
-// Give any CSS @page size declared in the page priority over what is declared
-// in width and height or format options
-$chrome2pdf->setPreferCSSPageSize(true);
-
-// Print background graphics
-$chrome2pdf->setPrintBackground(true);
 ```
 
 ## Testing
