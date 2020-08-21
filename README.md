@@ -49,14 +49,14 @@ class ExampleController extends Controller
 
 ## Usage
 
-Install chrome
+This package depends on headless chrome. Install it via your package manager of choice or manually:
 
 ```bash
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
 
-Install package
+Install this package via composer:
 
 ```bash
 composer require tesla-software/chrome2pdf
@@ -81,7 +81,7 @@ $chrome2pdf
 
 ### Change temp directory path
 
-Every time you generate pdf, this package create a temporary .html file with given content. Make sure that given directory path is writable and readable.
+Every time you generate pdf, this package creates a temporary .html file with given content. Make sure that given directory path is writable and readable.
 
 ```php
 $chrome2pdf
