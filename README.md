@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
-[![Build Status][ico-travis]][link-travis]
+![Build Status][ico-actions]
 
 Convert HTML to pdf using headless chrome.
 
@@ -202,8 +202,6 @@ $ composer test
 
 [ico-version]: https://img.shields.io/packagist/v/tesla-software/chrome2pdf.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/tesla-software/chrome2pdf/master.svg?style=flat-square
+[ico-actions]: https://img.shields.io/github/workflow/status/tesla-software/chrome2pdf/Testing%20Package?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/tesla-software/chrome2pdf
-[link-travis]: https://travis-ci.org/tesla-software/chrome2pdf
-
