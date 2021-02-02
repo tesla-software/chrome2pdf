@@ -5,11 +5,13 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
     runs-on: ${{ matrix.operating-system }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Chrome
+        uses: nanasess/setup-chromedriver@master
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
