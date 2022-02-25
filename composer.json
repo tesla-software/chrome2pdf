@@ -31,7 +31,7 @@
     ],
     "require": {
         "php": "^7.2|^8.0",
-        "jakubkulhan/chrome-devtools-protocol": "^1.0"
+        "jakubkulhan/chrome-devtools-protocol": "1.0.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
